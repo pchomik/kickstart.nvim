@@ -114,6 +114,25 @@ vim.o.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
+
+-- For WSL (Windows Subsystem for Linux)
+if vim.fn.has 'wsl' == 1 then
+  vim.g.clipboard = {
+    name = 'WSLClipboard',
+    copy = {
+      ['+'] = 'clip.exe',
+      ['*'] = 'clip.exe',
+    },
+    paste = {
+      -- The -NoProfile and -Command are important.
+      -- Use -Raw to prevent potential issues with multi-line pastes being treated as an array.
+      ['+'] = 'powershell.exe -NoProfile -Command Get-Clipboard -Raw | Out-File -FilePath - -Encoding UTF8NoBOM',
+      ['*'] = 'powershell.exe -NoProfile -Command Get-Clipboard -Raw | Out-File -FilePath - -Encoding UTF8NoBOM',
+    },
+    cache_enabled = 0,
+  }
+end
+
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
@@ -881,20 +900,21 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+    'olimorris/onedarkpro.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
+      require('onedarkpro').setup {
+        colors = {
+          bg = '#16181d',
+          fg = '#c5cad3',
         },
       }
 
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'onedark'
     end,
   },
 
@@ -984,7 +1004,8 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
+  { import = 'custom.config' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
