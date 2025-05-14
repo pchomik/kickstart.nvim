@@ -90,6 +90,12 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Indentation settings
+vim.o.expandtab = true -- Use spaces instead of tabs
+vim.o.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
+vim.o.tabstop = 4 -- Number of spaces tabs count for
+vim.o.smartindent = true -- Insert indents automatically
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
