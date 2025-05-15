@@ -6,11 +6,13 @@ return {
     provider = 'copilot',
     auto_suggestions_provider = 'copilot',
     copilot = {
-      model = 'gemini-2.0-flash-001',
+      --model = 'gemini-2.0-flash-001',
+      model = 'claude-3.7-sonnet',
     },
     openai = {
       endpoint = 'https://api.githubcopilot.com',
-      model = 'claude-3.5-sonnet',
+      --model = 'claude-3.5-sonnet',
+      model = 'claude-3.7-sonnet',
       timeout = 30000,
       temperature = 0,
       max_tokens = 4096,
